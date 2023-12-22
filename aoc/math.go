@@ -53,3 +53,7 @@ func Sign[T Numbers](v T) int {
 
 	return 1
 }
+
+func Mod(a, b int) int {
+	return (a%b + b) % b
+}
