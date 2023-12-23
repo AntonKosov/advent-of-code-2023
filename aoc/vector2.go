@@ -1,5 +1,7 @@
 package aoc
 
+import "fmt"
+
 type Vector2 struct {
 	X int
 	Y int
@@ -33,4 +35,8 @@ func (v Vector2) RotateLeft() Vector2 {
 // RotateRight rotates the vector to the right (left-handed system)
 func (v Vector2) RotateRight() Vector2 {
 	return NewVector2(-v.Y, v.X)
+}
+
+func (v Vector2) String() string {
+	return fmt.Sprintf("(%v, %v)", v.X, v.Y)
 }
