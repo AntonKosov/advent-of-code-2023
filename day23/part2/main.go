@@ -66,8 +66,8 @@ func makeGraph(maze [][]byte) (adjList []map[int]int) {
 }
 
 func fillAdjList(
-	maze [][]byte, nodes map[aoc.Vector2]int, adjList []map[int]int,
-	from aoc.Vector2, prevPos, currentPos aoc.Vector2, distance int,
+	maze [][]byte, nodes map[aoc.Vector2[int]]int, adjList []map[int]int,
+	from aoc.Vector2[int], prevPos, currentPos aoc.Vector2[int], distance int,
 ) {
 	idxFrom := nodes[from]
 	for _, dir := range dirs {
@@ -90,8 +90,8 @@ func fillAdjList(
 	}
 }
 
-func findNodes(maze [][]byte) map[aoc.Vector2]int {
-	nodes := map[aoc.Vector2]int{}
+func findNodes(maze [][]byte) map[aoc.Vector2[int]]int {
+	nodes := map[aoc.Vector2[int]]int{}
 	for r, row := range maze {
 		for c, v := range row {
 			if v == cellForest {
@@ -125,10 +125,10 @@ const (
 	cellForest = '#'
 )
 
-var dirs []aoc.Vector2
+var dirs []aoc.Vector2[int]
 
 func init() {
-	dirs = []aoc.Vector2{
+	dirs = []aoc.Vector2[int]{
 		aoc.NewVector2(0, 1),
 		aoc.NewVector2(0, -1),
 		aoc.NewVector2(1, 0),

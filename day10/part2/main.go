@@ -29,7 +29,7 @@ func process(maze [][]byte) int {
 	return countEnclosedArea(maze, path, rot < 0)
 }
 
-func countEnclosedArea(maze [][]byte, path []aoc.Vector2, leftRotation bool) int {
+func countEnclosedArea(maze [][]byte, path []aoc.Vector2[int], leftRotation bool) int {
 	visited := buildVisited(maze, path)
 	count := 0
 	for i := 1; i < len(path); i++ {
@@ -46,7 +46,7 @@ func countEnclosedArea(maze [][]byte, path []aoc.Vector2, leftRotation bool) int
 	return count
 }
 
-func buildVisited(maze [][]byte, path []aoc.Vector2) [][]bool {
+func buildVisited(maze [][]byte, path []aoc.Vector2[int]) [][]bool {
 	visited := make([][]bool, len(maze))
 	for i := range visited {
 		visited[i] = make([]bool, len(maze[0]))
@@ -59,7 +59,7 @@ func buildVisited(maze [][]byte, path []aoc.Vector2) [][]bool {
 	return visited
 }
 
-func measureArea(maze [][]byte, visited [][]bool, pos aoc.Vector2) int {
+func measureArea(maze [][]byte, visited [][]bool, pos aoc.Vector2[int]) int {
 	if pos.X < 0 || pos.Y < 0 || pos.Y >= len(maze) || pos.X >= len(maze[0]) {
 		return 0
 	}
@@ -78,7 +78,7 @@ func measureArea(maze [][]byte, visited [][]bool, pos aoc.Vector2) int {
 	return area
 }
 
-func findPath(maze [][]byte, startPos aoc.Vector2) (path []aoc.Vector2, rotationSum int) {
+func findPath(maze [][]byte, startPos aoc.Vector2[int]) (path []aoc.Vector2[int], rotationSum int) {
 	prevPos := aoc.NewVector2(-1, -1)
 	currentPos := startPos
 	for len(path) == 0 || currentPos != startPos {
@@ -97,7 +97,7 @@ func findPath(maze [][]byte, startPos aoc.Vector2) (path []aoc.Vector2, rotation
 	return path, rotationSum
 }
 
-func setStartPipe(maze [][]byte, startPos aoc.Vector2) {
+func setStartPipe(maze [][]byte, startPos aoc.Vector2[int]) {
 	height, width := len(maze), len(maze[0])
 	for pipe, outputs := range connections {
 		count := 0
@@ -120,7 +120,7 @@ func setStartPipe(maze [][]byte, startPos aoc.Vector2) {
 	panic("start pipe not found")
 }
 
-func findStart(maze [][]byte) aoc.Vector2 {
+func findStart(maze [][]byte) aoc.Vector2[int] {
 	for r, row := range maze {
 		for c, v := range row {
 			if v == 'S' {
@@ -135,10 +135,10 @@ func findStart(maze [][]byte) aoc.Vector2 {
 const enclosedChar = 'I'
 
 var connections map[byte][2]rotation
-var dirs []aoc.Vector2
+var dirs []aoc.Vector2[int]
 
 type rotation struct {
-	direction aoc.Vector2
+	direction aoc.Vector2[int]
 	turn      int
 }
 
@@ -148,7 +148,7 @@ func init() {
 	left := aoc.NewVector2(-1, 0)
 	right := left.Mul(-1)
 
-	dirs = []aoc.Vector2{up, down, left, right}
+	dirs = []aoc.Vector2[int]{up, down, left, right}
 
 	direct, leftTurn, rightTurn := 0, -1, 1
 

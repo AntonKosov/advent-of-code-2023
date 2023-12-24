@@ -61,7 +61,7 @@ func energizedCells(device [][]byte, x, y int, dir lightDir) int {
 	return energized
 }
 
-func calculateBeam(device [][]byte, lightMap [][]lightDir, pos aoc.Vector2, ld lightDir) {
+func calculateBeam(device [][]byte, lightMap [][]lightDir, pos aoc.Vector2[int], ld lightDir) {
 	if pos.Y < 0 || pos.X < 0 || pos.Y >= len(device) || pos.X >= len(device[0]) {
 		return
 	}
@@ -112,7 +112,7 @@ const (
 	dirRight
 )
 
-var offsets map[lightDir]aoc.Vector2
+var offsets map[lightDir]aoc.Vector2[int]
 
 type reflection struct {
 	ld     lightDir
@@ -124,7 +124,7 @@ var reflections map[reflection]lightDir
 var splits map[reflection][]lightDir
 
 func init() {
-	offsets = map[lightDir]aoc.Vector2{
+	offsets = map[lightDir]aoc.Vector2[int]{
 		dirUp:    aoc.NewVector2(0, -1),
 		dirDown:  aoc.NewVector2(0, 1),
 		dirLeft:  aoc.NewVector2(-1, 0),

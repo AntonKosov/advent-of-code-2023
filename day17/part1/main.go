@@ -51,7 +51,7 @@ func process(heatMap [][]int) int {
 		}
 		processedStates[prState] = s.lostHeat
 
-		addValid := func(pos, dir aoc.Vector2, straightCount int) {
+		addValid := func(pos, dir aoc.Vector2[int], straightCount int) {
 			if pos.X < 0 || pos.Y < 0 || pos.X >= width || pos.Y >= height {
 				return
 			}
@@ -76,14 +76,14 @@ func process(heatMap [][]int) int {
 }
 
 type processedState struct {
-	position      aoc.Vector2
-	direction     aoc.Vector2
+	position      aoc.Vector2[int]
+	direction     aoc.Vector2[int]
 	straightCount int
 }
 
 type state struct {
-	position      aoc.Vector2
-	direction     aoc.Vector2
+	position      aoc.Vector2[int]
+	direction     aoc.Vector2[int]
 	straightCount int
 	lostHeat      int
 }

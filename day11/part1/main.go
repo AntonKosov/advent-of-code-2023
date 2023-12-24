@@ -35,9 +35,9 @@ func process(image [][]byte) int {
 	return distance
 }
 
-func galaxiesPositions(image [][]byte) []aoc.Vector2 {
+func galaxiesPositions(image [][]byte) []aoc.Vector2[int] {
 	ci, ri := columnIndeces(image), rowsIndeces(image)
-	var galaxies []aoc.Vector2
+	var galaxies []aoc.Vector2[int]
 	for r, row := range image {
 		for c, v := range row {
 			if v == galaxy {

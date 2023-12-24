@@ -29,7 +29,7 @@ func process(maze [][]byte) int {
 	return length / 2
 }
 
-func loopLength(maze [][]byte, startPos aoc.Vector2) int {
+func loopLength(maze [][]byte, startPos aoc.Vector2[int]) int {
 	count := 1
 	prevPos := aoc.NewVector2(-1, -1)
 	currentPos := startPos
@@ -51,7 +51,7 @@ func loopLength(maze [][]byte, startPos aoc.Vector2) int {
 	}
 }
 
-func setStartPipe(maze [][]byte, startPos aoc.Vector2) {
+func setStartPipe(maze [][]byte, startPos aoc.Vector2[int]) {
 	height, width := len(maze), len(maze[0])
 	for pipe, outputs := range connections {
 		count := 0
@@ -74,7 +74,7 @@ func setStartPipe(maze [][]byte, startPos aoc.Vector2) {
 	panic("start pipe not found")
 }
 
-func findStart(maze [][]byte) aoc.Vector2 {
+func findStart(maze [][]byte) aoc.Vector2[int] {
 	for r, row := range maze {
 		for c, v := range row {
 			if v == 'S' {
@@ -86,7 +86,7 @@ func findStart(maze [][]byte) aoc.Vector2 {
 	panic("start not found")
 }
 
-var connections map[byte][2]aoc.Vector2
+var connections map[byte][2]aoc.Vector2[int]
 
 func init() {
 	down := aoc.NewVector2(0, 1)
@@ -94,7 +94,7 @@ func init() {
 	right := aoc.NewVector2(1, 0)
 	left := right.Mul(-1)
 
-	connections = map[byte][2]aoc.Vector2{
+	connections = map[byte][2]aoc.Vector2[int]{
 		'|': {up, down},
 		'-': {left, right},
 		'L': {up, right},

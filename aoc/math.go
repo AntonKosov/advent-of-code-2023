@@ -1,5 +1,9 @@
 package aoc
 
+type Numbers interface {
+	int | float64
+}
+
 func GCD(nums ...int) int {
 	if len(nums) < 2 {
 		panic("incorrect number of parameters")
@@ -30,10 +34,22 @@ func LCM(nums ...int) int {
 	return a * b / GCD(a, b)
 }
 
-func Abs(v int) int {
+func Abs[T Numbers](v T) T {
 	if v < 0 {
 		return -v
 	}
 
 	return v
+}
+
+func Sign[T Numbers](v T) int {
+	if v == 0 {
+		return 0
+	}
+
+	if v < 0 {
+		return -1
+	}
+
+	return 1
 }

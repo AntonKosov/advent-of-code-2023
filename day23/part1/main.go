@@ -80,8 +80,8 @@ func move(maze [][]byte, pos position) []position {
 }
 
 type position struct {
-	current  aoc.Vector2
-	previous aoc.Vector2
+	current  aoc.Vector2[int]
+	previous aoc.Vector2[int]
 }
 
 const (
@@ -90,18 +90,18 @@ const (
 )
 
 var (
-	dirs  []aoc.Vector2
-	slope map[byte]aoc.Vector2
+	dirs  []aoc.Vector2[int]
+	slope map[byte]aoc.Vector2[int]
 )
 
 func init() {
-	dirs = []aoc.Vector2{
+	dirs = []aoc.Vector2[int]{
 		aoc.NewVector2(0, 1),
 		aoc.NewVector2(0, -1),
 		aoc.NewVector2(1, 0),
 		aoc.NewVector2(-1, 0),
 	}
-	slope = map[byte]aoc.Vector2{
+	slope = map[byte]aoc.Vector2[int]{
 		'>': aoc.NewVector2(1, 0),
 		'<': aoc.NewVector2(-1, 0),
 		'v': aoc.NewVector2(0, 1),
