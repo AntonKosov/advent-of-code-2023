@@ -28,7 +28,7 @@ func (v Vector2[T]) ManhattanDst(v2 Vector2[T]) T {
 }
 
 func (v Vector2[T]) Norm() Vector2[T] {
-	return NewVector2(Sign(v.X), Sign(v.Y))
+	return NewVector2(T(Sign(v.X)), T(Sign(v.Y)))
 }
 
 // RotateLeft rotates the vector to the left (left-handed system)

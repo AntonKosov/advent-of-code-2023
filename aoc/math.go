@@ -42,7 +42,7 @@ func Abs[T Numbers](v T) T {
 	return v
 }
 
-func Sign[T Numbers](v T) T {
+func Sign[T Numbers](v T) int {
 	if v == 0 {
 		return 0
 	}
