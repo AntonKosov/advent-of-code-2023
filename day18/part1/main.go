@@ -29,59 +29,18 @@ func read() []instruction {
 }
 
 func process(instructions []instruction) int {
-	// todo remove rotation, it's always right
-	terrain, internalCells := dig(instructions)
-	for _, c := range internalCells {
-		fill(terrain, c)
-	}
-
-	return len(terrain)
-}
-
-func fill(terrain map[aoc.Vector2[int]]bool, pos aoc.Vector2[int]) {
-	if terrain[pos] {
-		return
-	}
-
-	terrain[pos] = true
-	for _, dir := range dirs {
-		fill(terrain, pos.Add(dir))
-	}
-}
-
-func dig(instructions []instruction) (terrain map[aoc.Vector2[int]]bool, internalCells []aoc.Vector2[int]) {
-	leftCells := make([]aoc.Vector2[int], 0, len(instructions))
-	rightCells := make([]aoc.Vector2[int], 0, len(instructions))
-	terrain = make(map[aoc.Vector2[int]]bool, len(instructions))
-	rotation := 0
-	currentDir := aoc.NewVector2(1, 0)
+	// Pick's theorem and Shoelace (Trapezoid) formula are used
+	boundaryPoints := 4
+	doubledInteriorPoints := 0
 	currentPos := aoc.NewVector2(0, 0)
-	currentDirLetter := instructions[0].dir
-	for _, instr := range instructions {
-		rot := rotations[currentDirLetter][instr.dir]
-		if rot != 0 {
-			rotation += rot
-			if rot < 0 {
-				currentDir = currentDir.RotateLeft()
-			} else {
-				currentDir = currentDir.RotateRight()
-			}
-		}
-		currentDirLetter = instr.dir
-		for i := 0; i < instr.meters; i++ {
-			currentPos = currentPos.Add(currentDir)
-			terrain[currentPos] = true
-			leftCells = append(leftCells, currentPos.Add(currentDir.RotateLeft()))
-			rightCells = append(rightCells, currentPos.Add(currentDir.RotateRight()))
-		}
+	for _, ins := range instructions {
+		nextPos := currentPos.Add(dirs[ins.dir].Mul(ins.meters))
+		doubledInteriorPoints += (currentPos.Y + nextPos.Y) * (currentPos.X - nextPos.X)
+		currentPos = nextPos
+		boundaryPoints += ins.meters
 	}
 
-	internalCells = leftCells
-	if rotation > 0 {
-		internalCells = rightCells
-	}
-
-	return terrain, internalCells
+	return aoc.Abs(doubledInteriorPoints/2) + boundaryPoints/2 - 1
 }
 
 type instruction struct {
@@ -89,21 +48,13 @@ type instruction struct {
 	meters int
 }
 
-var dirs []aoc.Vector2[int]
-var rotations map[byte]map[byte]int
+var dirs map[byte]aoc.Vector2[int]
 
 func init() {
-	left, right := -1, 1
-	rotations = map[byte]map[byte]int{
-		'U': {'L': left, 'R': right},
-		'D': {'L': right, 'R': left},
-		'R': {'U': left, 'D': right},
-		'L': {'U': right, 'D': left},
-	}
-	dirs = []aoc.Vector2[int]{
-		aoc.NewVector2(1, 0),
-		aoc.NewVector2(-1, 0),
-		aoc.NewVector2(0, 1),
-		aoc.NewVector2(0, -1),
+	dirs = map[byte]aoc.Vector2[int]{
+		'U': aoc.NewVector2(0, -1),
+		'D': aoc.NewVector2(0, 1),
+		'R': aoc.NewVector2(1, 0),
+		'L': aoc.NewVector2(-1, 0),
 	}
 }
